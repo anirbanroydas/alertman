@@ -17,13 +17,14 @@ Features
 * Alerting
 * RabbitMq
 * Email Notification
+* Used by the `dummy_orders <https://github.com/anirbanroydas/dummy_orders>`_ demo where the alert events sent by the **dummy_orders** are responsed by **alertman** to take appropriate actions.
 
 Overview
 ---------
 
 * **Some Design Specific Note:**
 
-  I have tried to structure the code using `Clean Architecture <https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html>`_ proposed by 
+  I have tried to structure the code using `Clean Architecture** <https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html>`_ proposed by 
   `Robert Martin <https://en.wikipedia.org/wiki/Robert_C._Martin>`_, famously known as **Uncle Bob**.
 
   **Clean Architecture** is some better or flavour of other known architectures like `Porst & Adapters <https://spin.atomicobject.com/2013/02/23/ports-adapters-software-architecture/>`_, 
@@ -35,6 +36,15 @@ Overview
   **NOTE :** This is not the best architecture for all usecases and of course a little more verbose and more boilerplate than some other design patterns, but it 
   does help you keep you codebase fully maintainable for the long run. You may not agree with Clean architecture's philosophy sometimes. But I am just using it to understand it more.
 
+  Btw, `Robert Martin`_ is also known for 
+  the `S.O.L.I.D <https://medium.com/@cramirez92/s-o-l-i-d-the-first-5-priciples-of-object-oriented-design-with-javascript-790f6ac9b9fa>`_ 
+  principles which have shaped real greate design choices when it comes to writing 
+  good maintainable **Object Oriented Code**. But, *SOLID* is talked about even in 
+  non object oriented langauges like **Golang**.
+
+  **P.S :** Just for motivational purposes, I am implementing few projects in *Clean Architecture* to understand it better and challenge the norm or my own design choices.
+
+  > This is a good talk by the same guy `link to talk <https://www.youtube.com/watch?v=o_TH-Y78tt4>`_
 
 * **Service Details**
 
@@ -182,18 +192,17 @@ Using Docker
 * **Step 3:**
 
   Pull the image or run the image separately or you can run it along with other services, docker containers etc.
-  To know about the check the sameple **dummy orders service** which makes use of this alertman servic.
+  To know about the check the sameple `dummy_orders`_ service** which makes use of this **alertman** servic.
     
   That service has a well defined ``docker-compose.yml`` file which explains the whole setup process to make the
   **alertman** service work/communicate with other services.
 
-  Link to the dummy orders service is `dummy_orders <https://github.com/anirbanroydas/dummy_orders>`_.
 
 
 Usage
 -----
 
-Check the above **Step 3** which will direct you to a plae on how to use it. There is not API as such but
+Check the above **Step 3** which will direct you to a place on how to use it. There is no API as such but
 to know what and how messages are read, for now just go through the code. Docs may be added later for detail description.
 
 TODO
