@@ -3,8 +3,6 @@ alertman
 
 An **Alerting** / **Notification** microservice written in Python using **asyncio** event loop which listens for alert events and sends notifications via **email**, **sms** etc.
 
---------
-
 Details
 --------
 
@@ -13,8 +11,6 @@ Details
 :Copyright(C): 2018, Anirban Roy Das <anirban.nick@gmail.com>
 
 Check ``alertman/LICENSE`` file for full Copyright notice.
-
-----------
 
 Features
 ---------
@@ -25,62 +21,58 @@ Features
 * RabbitMq
 * Email Notification
 
----------
-
 Overview
 ---------
 
 * **Some Design Specific Note:**
 
-    I have tried to structure the code using `Clean Architecture <https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html>`_ proposed by 
-    `Robert Martin <https://en.wikipedia.org/wiki/Robert_C._Martin>`_, famously known as **Uncle Bob**.
+  I have tried to structure the code using `Clean Architecture <https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html>`_ proposed by 
+  `Robert Martin <https://en.wikipedia.org/wiki/Robert_C._Martin>`_, famously known as **Uncle Bob**.
 
-    **Clean Architecture** is some better or flavour of other known architectures like `Porst & Adapters <https://spin.atomicobject.com/2013/02/23/ports-adapters-software-architecture/>`_, 
-    `The Onion Architecture <http://jeffreypalermo.com/blog/the-onion-architecture-part-1/>`_, etc.
+  **Clean Architecture** is some better or flavour of other known architectures like `Porst & Adapters <https://spin.atomicobject.com/2013/02/23/ports-adapters-software-architecture/>`_, 
+  `The Onion Architecture <http://jeffreypalermo.com/blog/the-onion-architecture-part-1/>`_, etc.
 
-    Clean architecture mainly focusses on following one principle strictly that is **Dependency Inversion**. Keeping all dependencies flow in a uni direction 
-    makes it quite quite powerful. Infact, I have finally realized the value of proper **dependency injections** while implementing clean architecture.
+  Clean architecture mainly focusses on following one principle strictly that is **Dependency Inversion**. Keeping all dependencies flow in a uni direction 
+  makes it quite quite powerful. Infact, I have finally realized the value of proper **dependency injections** while implementing clean architecture.
 
-    **NOTE :** This is not the best architecture for all usecases and of course a little more verbose and more boilerplate than some other design patterns, but it 
-    does help you keep you codebase fully maintainable for the long run. You may not agree with Clean architecture's philosophy sometimes. But I am just using it to understand it more.
+  **NOTE :** This is not the best architecture for all usecases and of course a little more verbose and more boilerplate than some other design patterns, but it 
+  does help you keep you codebase fully maintainable for the long run. You may not agree with Clean architecture's philosophy sometimes. But I am just using it to understand it more.
 
 
 * **Service Details**
 
-    This service is not a server based service. Instead of that it just listens for alert events 
-    from a source (in this case, it is `RabbitMQ <https://www.rabbitmq.com/>`_, which for 
-    everyone's sake could also be `Redis <https://redis.io/>`_, or `Kafka <https://kafka.apache.org/>`_
-    or others.)
+  This service is not a server based service. Instead of that it just listens for alert events 
+  from a source (in this case, it is `RabbitMQ <https://www.rabbitmq.com/>`_, which for 
+  everyone's sake could also be `Redis <https://redis.io/>`_, or `Kafka <https://kafka.apache.org/>`_
+  or others.)
 
-    Alertman starts a **worker** consumer **subsribed** to a configured **topic** of a particular 
-    rabbitmq **exchange**. The exchange type is Topic exchange type.
+  Alertman starts a **worker** consumer **subsribed** to a configured **topic** of a particular 
+  rabbitmq **exchange**. The exchange type is Topic exchange type.
 
-    The worker consumer creates a predeficed queue and binds the queue to the configured 
-    exchange via some **topic binding key**. Everytime the worker consumer is started it first tries
-    to create the queue, but if the queue is already created and binded, it does not do it again.
+  The worker consumer creates a predeficed queue and binds the queue to the configured 
+  exchange via some **topic binding key**. Everytime the worker consumer is started it first tries
+  to create the queue, but if the queue is already created and binded, it does not do it again.
 
-    Now some other services, can be one, cab be hundred others would **send alert or notification** messages
-    via this configured exchange. The services will send alerts to different topics or same topic depending
-    on which topics the consumer (in this case the alertman service process) is subsribed to.
+  Now some other services, can be one, cab be hundred others would **send alert or notification** messages
+  via this configured exchange. The services will send alerts to different topics or same topic depending
+  on which topics the consumer (in this case the alertman service process) is subsribed to.
 
-    The alertman worker will receive those messages and start processing them. Here the alertman service
-    is capable of sending email notifications, sms notification or whatever you add the capabilities for.
+  The alertman worker will receive those messages and start processing them. Here the alertman service
+  is capable of sending email notifications, sms notification or whatever you add the capabilities for.
 
-    Now the service/worker will send all those emails, sms or whatever is required asynchronously and concurrently
-    so that id doesn't have to wait for email or sms or either of them to complete. They would do it concurrently.
+  Now the service/worker will send all those emails, sms or whatever is required asynchronously and concurrently
+  so that id doesn't have to wait for email or sms or either of them to complete. They would do it concurrently.
 
-    Also, **you can start multiple alertman services/workers**, in which case all those workers will subsribe to the 
-    same topic and the same queue bound to the same configured exchange. The only difference is when alerts come to 
-    the queue, each worker will process those messages in workers queue fashion meaning, if there are 10 messages which
-    come to the queue and there are 5 workers/alertman services running, then each of them will process some of those messages
-    but not all. Thus more work could be done at the same time.
+  Also, **you can start multiple alertman services/workers**, in which case all those workers will subsribe to the 
+  same topic and the same queue bound to the same configured exchange. The only difference is when alerts come to 
+  the queue, each worker will process those messages in workers queue fashion meaning, if there are 10 messages which
+  come to the queue and there are 5 workers/alertman services running, then each of them will process some of those messages
+  but not all. Thus more work could be done at the same time.
 
-    Here the email sending is done using `aiosmtplib <https://github.com/cole/aiosmtplib>`_ which sends email via some 
-    **smtp** server **asynchronously** using **asyncio** event loop.
-    The service connects to rabbitmq using `aio-pika <aio-pika.readthedocs.io/>`_ client libary which is 
-    an asycio based wrapper for the famous `pika <https://github.com/pika/pika>`_ library.
-
-----------------
+  Here the email sending is done using `aiosmtplib <https://github.com/cole/aiosmtplib>`_ which sends email via some 
+  **smtp** server **asynchronously** using **asyncio** event loop.
+  The service connects to rabbitmq using `aio-pika <aio-pika.readthedocs.io/>`_ client libary which is 
+  an asycio based wrapper for the famous `pika <https://github.com/pika/pika>`_ library.
 
 Technical Specs
 ----------------
@@ -94,7 +86,6 @@ Technical Specs
 :Uber\'s Test-Double: Test Double library for python, a good alternative to the `mock <https://github.com/testing-cabal/mock>`_ library
 :Docker: A containerization tool for better devops
 
------------
 
 Deployment
 ~~~~~~~~~~~
@@ -149,8 +140,8 @@ Using Docker
 
     * Install Docker
 
-    Follow my another github project, where everything related to DevOps and scripts are 
-    mentioned along with setting up a development environemt to use Docker is mentioned.
+        Follow my another github project, where everything related to DevOps and scripts are 
+        mentioned along with setting up a development environemt to use Docker is mentioned.
 
         * Project: https://github.com/anirbanroydas/DevOps
 
@@ -201,15 +192,12 @@ Using Docker
 
     Link to the dummy orders service is `dummy_orders <https://github.com/anirbanroydas/dummy_orders>`_.
 
-_______
 
 Usage
 -----
 
 Check the above **Step 3** which will direct you to a plae on how to use it. There is not API as such but
 to know what and how messages are read, for now just go through the code. Docs may be added later for detail description.
-
-_______
 
 TODO
 -----
