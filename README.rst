@@ -8,9 +8,6 @@ Details
 
 :Author: Anirban Roy Das
 :Email: anirban.nick@gmail.com
-:Copyright(C): 2018, Anirban Roy Das <anirban.nick@gmail.com>
-
-Check ``alertman/LICENSE`` file for full Copyright notice.
 
 Features
 ---------
