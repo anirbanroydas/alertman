@@ -17,7 +17,7 @@ BRANCH="$2"
 COMMIT="$3"
 BUILD_DATE=$(date +%Y%m%dH%HM%MS%S)
 
-if [ ! -z "$COMMIT" -a "$COMMT"  != " " ] ; then
+if [ ! -z "$COMMIT" -a "$COMMIT"  != " " ] ; then
     echo "COMMIT is not empty, removing date and time for tag value "
     BUILD_DATE=""
 fi
