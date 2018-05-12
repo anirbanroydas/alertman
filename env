@@ -1,0 +1,21 @@
+SMTP_HOSTNAME=<smtp.gmail.com|some_other_smtp_host>
+SMTP_PORT=<465|some_other_port>
+SMTP_USERNAME=<anirban.nick@gmail.com|some_other_username>
+SMTP_PASSWORD=<some_secrete_password>
+SMTP_USE_TLS=<True|False>
+
+MESSAGE_BROKER_SERVICE_USERNAME=<some_rabbitmq_username>
+MESSAGE_BROKER_SERVICE_PASSWORD=<some_rabbitmq_password>
+MESSAGE_BROKER_SERVICE_HOST=<some_rabbitmq_host>
+MESSAGE_BROKER_SERVICE_PORT=5672
+MESSAGE_BROKER_SERVICE_VIRTUALHOST=</|some_rabbitmq_virtual_host>
+
+TRANSACTION_FRAUD_EMAIL_ALERT_FROM=<anirban.nick@gmail.com|some_email_sender>
+TRANSACTION_FRAUD_EMAIL_ALERT_TO=<anirban.nick@gmail.com|some_email_receiver>
+TRANSACTION_FRAUD_EMAIL_ALERT_SUBJECT=<"Fraudulent Transaction: dummy-company"|"some_different_subject">
+
+DEPLOY_TYPE=<virtualenv|docker>
+DEPLOYMENT_ENVIRONMENT=<dev|prod>
+
+LOG_LEVEL=<info|debug|error>
+PYTHONASYNCIODEBUG=<0|1>
