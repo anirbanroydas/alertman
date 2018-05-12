@@ -101,19 +101,19 @@ Prerequisite
 
 * **Required**
 
-    Copy (not move) the ``env`` file in the root project directory to ``.env`` and add/edit 
-    the configurations accordingly.
+  Copy (not move) the ``env`` file in the root project directory to ``.env`` and add/edit 
+  the configurations accordingly.
 
-    This needs to be done because the server wants some pre configurations like ports, 
-    hostnames, etc before it can start the service.
+  This needs to be done because the server wants some pre configurations like ports, 
+  hostnames, etc before it can start the service.
 
 * **Optional**
 
-    To safegurad secret and confidential data leakage via your git commits to public 
-    github repo, check ``git-secrets``.
+  To safegurad secret and confidential data leakage via your git commits to public 
+  github repo, check ``git-secrets``.
 
-    This `git secrets <https://github.com/awslabs/git-secrets>`_ project helps in 
-    preventing secrete leakage by mistake.
+  This `git secrets <https://github.com/awslabs/git-secrets>`_ project helps in 
+  preventing secrete leakage by mistake.
 
 
 Using Virutalenv
@@ -136,61 +136,61 @@ Using Docker
 
 * **Step 1:**
     
-    Install **docker** and **make** command if you don't have it already.
+  Install **docker** and **make** command if you don't have it already.
 
-    * Install Docker
+  * Install Docker
+    
+    Follow my another github project, where everything related to DevOps and scripts are 
+    mentioned along with setting up a development environemt to use Docker is mentioned.
 
-        Follow my another github project, where everything related to DevOps and scripts are 
-        mentioned along with setting up a development environemt to use Docker is mentioned.
+    * Project: https://github.com/anirbanroydas/DevOps
 
-        * Project: https://github.com/anirbanroydas/DevOps
+    * Go to setup directory and follow the setup instructions for your own platform, linux/macos
 
-        * Go to setup directory and follow the setup instructions for your own platform, linux/macos
-
-    * Install Make
-        ::
+  * Install Make
+    ::
             
-            # (Mac Os)
-            $ brew install automake
+        # (Mac Os)
+        $ brew install automake
 
-            # (Ubuntu)
-            $ sudo apt-get update
-            $ sudo apt-get install make
+        # (Ubuntu)
+        $ sudo apt-get update
+        $ sudo apt-get install make
 
 * **Step 2:**
 
-    There is ``Makefile`` present in teh root project directory using actually hides
-    away all the docker commands and other complex commands. So you don't have to actually 
-    know the **Docker** commands to run the service via docker. **Make** commands will do the
-    job for you.
+  There is ``Makefile`` present in teh root project directory using actually hides
+  away all the docker commands and other complex commands. So you don't have to actually 
+  know the **Docker** commands to run the service via docker. **Make** commands will do the
+  job for you.
 
-    * Make sure the ``env`` file has been copied to ``.env`` and necessary configuration changes done.
-    * There are only two values that need to be taken care of in the ``Makefile``
+  * Make sure the ``env`` file has been copied to ``.env`` and necessary configuration changes done.
+  * There are only two values that need to be taken care of in the ``Makefile``
 
-        * BRANCH: Change this to whatever branch you are in if making changes and creating the docker images again.
-        * COMMIT = Change this to a 6 char hash of the commit value so that the new docker images can be tracked.
+    * BRANCH: Change this to whatever branch you are in if making changes and creating the docker images again.
+    * COMMIT = Change this to a 6 char hash of the commit value so that the new docker images can be tracked.
 
-    * Run the command to start building new docker image and push it to docker hub.
+  * Run the command to start building new docker image and push it to docker hub.
         
-        * There is a script called ``build_tag_push.sh`` which actually does all the job of building the image, tagging the image ans finally pushing it to the repository.
-        * Make sure you are logged into to your docker hub acount. 
-        * Currently the ``build_tag_push.sh`` scripts pushes the images to ``hub.docker.com/aroyd`` acount. Change the settings in that file if you need to send it to some other place.
-        * The script tags the new built docker image with the branch, commit and datetime value.
-        * To know more, you can read the ``Dockerfile`` to get idea about the image that gets built on runing this make command.
+    * There is a script called ``build_tag_push.sh`` which actually does all the job of building the image, tagging the image ans finally pushing it to the repository.
+    * Make sure you are logged into to your docker hub acount. 
+    * Currently the ``build_tag_push.sh`` scripts pushes the images to ``hub.docker.com/aroyd`` acount. Change the settings in that file if you need to send it to some other place.
+    * The script tags the new built docker image with the branch, commit and datetime value.
+    * To know more, you can read the ``Dockerfile`` to get idea about the image that gets built on runing this make command.
 
-            ::
-            
-                $ make build-tag-push
+      ::
+        
+        $ make build-tag-push
 
 * **Step 3:**
 
-    Pull the image or run the image separately or you can run it along with other services, docker containers etc.
-    To know about the check the sameple **dummy orders service** which makes use of this alertman servic.
+  Pull the image or run the image separately or you can run it along with other services, docker containers etc.
+  To know about the check the sameple **dummy orders service** which makes use of this alertman servic.
     
-    That service has a well defined ``docker-compose.yml`` file which explains the whole setup process to make the
-    **alertman** service work/communicate with other services.
+  That service has a well defined ``docker-compose.yml`` file which explains the whole setup process to make the
+  **alertman** service work/communicate with other services.
 
-    Link to the dummy orders service is `dummy_orders <https://github.com/anirbanroydas/dummy_orders>`_.
+  Link to the dummy orders service is `dummy_orders <https://github.com/anirbanroydas/dummy_orders>`_.
 
 
 Usage
